@@ -7,3 +7,11 @@ class Planet(db.Model):
     description = db.Column(db.String)
     diameter= db.Column(db.Float)
     __tablename__ = "Planets"
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "diameter": self.diameter
+        }
