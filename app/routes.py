@@ -49,20 +49,22 @@ def get_planet(planet_id):
     else:
         return make_response(f"Planet {planet_id} not found", 404)
 
-@planet_bp.route("/<planet_id>", methods=['PUT'])
+@planet_bp.route("/<planet_id>", methods=["PUT"])
 def update_planet(planet_id):
-    planet = Planet.query.get(planet_id)
-    
-    if not planet:
-        return make_response(f"Planet {planet_id} not found", 404)
-    
-    data = request.json
-    planet.name = data['name']
-    planet.description = data['description']
-    planet.diameter = data['diameter']
-    db.session.commit()
-    
-    return make_response(f"Planet {planet_id} successfully updated", 200)
+    planet = validate_planet(planet_id)
+    request_body = request.get_json()
+
+    if "name" not in request_body or "description" not in \
+        request_body or "diameter" not in request_body:
+        return make_response("Incomplete request body", 400)
+    else:
+        planet.name = request_body["name"]
+        planet.description = request_body["description"]
+        planet.diameter = request_body["diameter"]
+
+        db.session.commit()
+
+        return make_response(f"Planet #{planet.id} successfully updated", 200)
 
 @planet_bp.route("/<planet_id>", methods=['DELETE'])
 def delete_planet(planet_id):
