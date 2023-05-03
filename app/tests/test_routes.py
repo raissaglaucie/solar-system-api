@@ -38,15 +38,15 @@ def test_get_one_planet(client, two_saved_planets):
     }
 
 
-# def test_create_one_planet(client):
-#     # Act
-#     response = client.post("/planets", json={
-#         "name": "Jupiter",
-#         "description": "biggest planet",
-#         "diameter": 86881
-#     })
-#     response_body = response.get_json()
+def test_create_one_planet(client):
+    # Act
+    response = client.post("/planets", json={
+        "name": "Jupiter",
+        "description": "biggest planet",
+        "diameter": 86881
+    })
+    response_body = response.get_json()
 
-#     # Assert
-#     assert response.status_code == 201
-#     assert response_body == "planet Jupiter successfully created"
+    # Assert
+    assert response.status_code == 201
+    assert response_body == "Planet Jupiter successfully created"
