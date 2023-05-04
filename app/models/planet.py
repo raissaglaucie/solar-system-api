@@ -1,6 +1,5 @@
 from app import db
 
-
 class Planet(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String)
@@ -15,3 +14,11 @@ class Planet(db.Model):
             "description": self.description,
             "diameter": self.diameter
         }
+    
+    @classmethod
+    def from_dict(cls, planet_data):
+        return cls(
+            name=planet_data['name'],
+            description=planet_data['description'],
+            diameter=planet_data['diameter']
+        )
