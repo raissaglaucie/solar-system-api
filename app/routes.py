@@ -58,9 +58,9 @@ def get_all_planets():
     return jsonify(planet_list)
 
 @planet_bp.route("/<planet_id>", methods=['GET'])
-def get_one_planet(planet_id):
+def get_planet(planet_id):
     planet = validate_model(Planet, planet_id)
-    return planet.to_dict()
+    return jsonify(planet.to_dict()), 200 
 
 @planet_bp.route("/<planet_id>", methods=["PUT"])
 def replace_planet(planet_id):
