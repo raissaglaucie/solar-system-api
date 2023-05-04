@@ -8,6 +8,16 @@ class Planet(db.Model):
     diameter= db.Column(db.Float)
     __tablename__ = "Planets"
 
+
+    @classmethod
+    def from_dict(cls, data_dict):
+        return cls(
+        name=data_dict["name"],
+        description=data_dict["description"],
+        diameter=data_dict["diameter"]
+        )
+    
+
     def to_dict(self):
         return {
             "id": self.id,

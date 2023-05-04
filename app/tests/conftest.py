@@ -30,16 +30,26 @@ def client(app):
 def two_saved_planets(app):
     # Arrange
     mercury_planet = Planet(name="Mercury",
-                      description="smallest planet",
-                      diameter=3031.9)
-    jupter_planet = Planet(name="Jupiter",
-                      description="biggest planet",
-                      diameter="86881")
+                            description="smallest planet",
+                            diameter=3031.9)
+    jupiter_planet = Planet(name="Jupiter",
+                            description="biggest planet",
+                            diameter=86881)
 
-    db.session.add_all([mercury_planet, jupter_planet])
-    # Alternatively, we could do
-    # db.session.add(ocean_book)
-    # db.session.add(mountain_book)
+    db.session.add_all([mercury_planet, jupiter_planet])
     db.session.commit()
+
+    return [mercury_planet, jupiter_planet]
+
+
+
+@pytest.fixture
+def one_saved_planet(app):
+    planet = Planet(name="Uranus", 
+                    description="furthest planet", 
+                    diameter=31518 )
+    db.session.add(planet)
+    db.session.commit()
+    return planet
 
 
