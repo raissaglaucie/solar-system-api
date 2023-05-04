@@ -55,7 +55,7 @@ def get_all_planets():
         planets = Planet.query.all()
 
     planet_list = [planet.to_dict() for planet in planets]
-    return jsonify(planet_list)
+    return make_response(jsonify(planet_list)), 200
 
 @planet_bp.route("/<planet_id>", methods=['GET'])
 def get_planet(planet_id):
