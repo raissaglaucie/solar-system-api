@@ -1,5 +1,6 @@
 from app import db
 from app.models.planet import Planet
+from app.models.moon import Moon
 from flask import Blueprint, jsonify, make_response, request, abort
 from sqlalchemy.exc import DataError
 
@@ -116,3 +117,24 @@ def delete_planet(planet_id):
     
     message = f"Planet #{planet.id} {planet.name} successfully deleted" 
     return make_response(jsonify(message)), 200
+
+
+@planet_bp.route("/<planet_id>/moons", methods=["POST"])
+def add_moons_to_planet(planet_id):
+    planet = validate_model(Planet, planet_id)
+    request_body = request.get_json()
+    moon_ids = request_body["moon_ids"]
+
+    for moon_id in moon_ids:
+        moon = validate_model(Moon, moon_id)
+        moon.planet_id = planet.id
+    
+    db.session.commit()
+
+    return make_response({"id": planet.id, "moon_ids": moon_ids}, 200)
+
+
+@planet_bp.route("/<planet_id>/moons", methods=["GET"])
+def get_moons_for_planet(planet_id):
+    planet = validate_model(Planet, planet_id)
+    return make_response(planet.to_dict(moons=True), 200)
